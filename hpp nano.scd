@@ -2,6 +2,19 @@
 
 ~hpp.nanoScene = 1;
 
+~hpp.startAboveZero = { |evt, which, value = 0|
+	if( value > 0 ) {
+		if( (~hpp[which].slLastVal ? 0) == 0 ) {
+			~hpp[which].start;
+		};
+	} {
+		if( (~hpp[which].slLastVal ? 0) > 0 ) {
+			~hpp[which].end;
+		};
+	};
+	~hpp[which].slLastVal = value;
+};
+
 (
 if( NanoKONTROL.allViews.isNil ) {
 	NanoKONTROL();
@@ -20,7 +33,10 @@ if( NanoKONTROL.inPort.isArray.not ) {
 
 // limit sl1/2
 
-NanoKONTROL.sliders[~hpp.nanoScene][0].action = { |sl| ~hpp.limit.amp = \amp.asSpec.map( sl.value ) };
+NanoKONTROL.sliders[~hpp.nanoScene][0].action = { |sl| 
+	~hpp.limit.amp = \amp.asSpec.map( sl.value );
+	~hpp.startAboveZero( \limit, sl.value );
+};
 NanoKONTROL.knobs[~hpp.nanoScene][0].action = { |sl| ~hpp.limit.shift = Env([-200,0,0,200],[0.4,0.2,0.4], [-2,0,2] ).at( sl.value ) };
 NanoKONTROL.sliders[~hpp.nanoScene][1].action = { |sl| ~hpp.limit.brassage =  sl.value };
 NanoKONTROL.knobs[~hpp.nanoScene][1].action = { |sl| ~hpp.limit.filter =  sl.value };
@@ -37,7 +53,10 @@ NanoKONTROL.buttons[~hpp.nanoScene][9].action = { |bt|
 
 // stutter sl3
 
-NanoKONTROL.sliders[~hpp.nanoScene][2].action = { |sl| ~hpp.stutter.amp = \amp.asSpec.map( sl.value ) };
+NanoKONTROL.sliders[~hpp.nanoScene][2].action = { |sl| 
+	~hpp.stutter.amp = \amp.asSpec.map( sl.value );
+	~hpp.startAboveZero( \stutter, sl.value );
+};
 NanoKONTROL.knobs[~hpp.nanoScene][2].action = { |sl| ~hpp.stutter.ringAmt = sl.value };
 NanoKONTROL.buttons[~hpp.nanoScene][2].action = { |bt| 
 	if( bt.value == 1 ) {
