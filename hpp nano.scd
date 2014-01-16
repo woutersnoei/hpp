@@ -130,5 +130,17 @@ NanoKONTROL.buttons[~hpp.nanoScene][5+9].action = { |bt|
 	};
 };
 
+// delays sl8
+NanoKONTROL.sliders[~hpp.nanoScene][7].action = { |sl| 
+	~hpp.delays.amp = \amp.asSpec.map( sl.value );
+	~hpp.startAboveZero( \delays, sl.value );
+};
 
+NanoKONTROL.knobs[~hpp.nanoScene][7].action = { |sl| 
+	~hpp.delays.direct = \amp.asSpec.map( sl.value );
+};
 
+// verb sl9
+NanoKONTROL.sliders[~hpp.nanoScene][8].action = { |sl| 
+	q.verb.views.amp.valueAction = \amp.asSpec.map( sl.value );
+};
