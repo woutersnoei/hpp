@@ -15,6 +15,7 @@
 	\catchPlay,
 	\squeeks,
 	\ticks,
+	\delays,
 	\verb,
 	\nano,
 ].do({ |item|
@@ -26,11 +27,7 @@
 /*
 (
 [
-	\limit,
-	\stutter,
 	\catch,
-	\squeeks,
-	\ticks,
 ].do({ |item|
 	~hpp[ item ].start;
 });
