@@ -135,7 +135,7 @@ SynthDef( "hpp_limit", { |in = 0, gain = 10, limit = -10, amp = 0.1, gate = 1, a
 
 ~hpp.limit.start = { |env|
 	env.end;
-	env.synth = Synth( "hpp_limit", env.getPairs( [ \in, \gain, \limit, \filter, \amp, \amt, \noiseMix, \noiseDens, \smear, \frx, \brassage, \auxmix, \echomix, \shift ] ), addAction: \addToTail );
+	env.synth = Synth( "hpp_limit", env.getPairs( [ \in, \gain, \limit, \filter, \amp, \amt, \noiseMix, \noiseDens, \smear, \frx, \brassage, \auxmix, \echomix, \shift ] ) );
 };
 
 ~hpp.limit.end = { |env|

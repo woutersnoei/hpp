@@ -87,7 +87,7 @@ SynthDef( "hpp_stutter", { |in = 0, fb = 0.9, amp = 0.1, filter = 0.5, ringAmt =
 
 ~hpp.stutter.start = { |env|
 	env.end;
-	env.synth = Synth( "hpp_stutter", env.getPairs( [ \in, \amp, \fb, \filter, \ringAmt, \norm] ), addAction: \addToTail );
+	env.synth = Synth( "hpp_stutter", env.getPairs( [ \in, \amp, \fb, \filter, \ringAmt, \norm] ) );
 };
 
 ~hpp.stutter.end = { |env|
