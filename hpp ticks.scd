@@ -6,7 +6,7 @@
 	evt.end;
 	evt.which = nil;
 	evt.oscFunc = OSCFunc({ |msg, time, addr, recvPort| 
-		evt.which = msg[2].linlin(-0.09pi,-0.005pi,1,0, \minmax);
+		evt.which = msg[2].linlin(-0.09pi,-0.0025pi,1,0, \minmax);
 	}, "/gyrosc/gyro", recvPort: 9999 );
 };
 
