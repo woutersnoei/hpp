@@ -69,7 +69,7 @@ NanoKONTROL.buttons[~hpp.nanoScene][2+9].action = { |bt|
 	};
 };
 
-// catchPlay sl4
+// catchPlay sl4 / 5
 
 NanoKONTROL.sliders[~hpp.nanoScene][3].action = { |sl| 
 	~hpp.catchPlay.amp = \amp.asSpec.map( sl.value ) 
@@ -91,40 +91,49 @@ NanoKONTROL.buttons[~hpp.nanoScene][3+9].action = { |bt|
 	};
 };
 
-// squeeks sl5
-
 NanoKONTROL.sliders[~hpp.nanoScene][4].action = { |sl| 
+	~hpp.catchPlay.semiVar = sl.value.linlin(0,1,0,24); 
+};
+
+NanoKONTROL.knobs[~hpp.nanoScene][4].action = { |sl| 
+	~hpp.catchPlay.semitones = sl.value.linlin(0,1,-24,24).round(6).postln; 
+};
+
+
+// squeeks sl6
+
+NanoKONTROL.sliders[~hpp.nanoScene][5].action = { |sl| 
 	~hpp.squeeks.amp = \amp.asSpec.map( sl.value );
 };
-NanoKONTROL.knobs[~hpp.nanoScene][4].action = { |sl| 
+NanoKONTROL.knobs[~hpp.nanoScene][5].action = { |sl| 
 	~hpp.squeeks.filter = sl.value;
 };
-NanoKONTROL.buttons[~hpp.nanoScene][4].action = { |bt| 
+NanoKONTROL.buttons[~hpp.nanoScene][5].action = { |bt| 
 	if( bt.value == 1 ) {
 		~hpp.squeeks.start;
 	};
 };
-NanoKONTROL.buttons[~hpp.nanoScene][4+9].action = { |bt| 
+NanoKONTROL.buttons[~hpp.nanoScene][5+9].action = { |bt| 
 	if( bt.value == 1 ) {
 		~hpp.squeeks.end;
 	};
 };
 
-// ticks sl6
+// ticks sl7
 
-NanoKONTROL.sliders[~hpp.nanoScene][5].action = { |sl| 
+NanoKONTROL.sliders[~hpp.nanoScene][6].action = { |sl| 
 	~hpp.ticks.amp = \amp.asSpec.map( sl.value );
 };
-NanoKONTROL.knobs[~hpp.nanoScene][5].action = { |sl| 
+NanoKONTROL.knobs[~hpp.nanoScene][6].action = { |sl| 
 	~hpp.ticks.hpf = sl.value.linlin(0,1,20,1000);
 	~hpp.ticks.rate = sl.value.linexp(0,1,2,3);
 };
-NanoKONTROL.buttons[~hpp.nanoScene][5].action = { |bt| 
+NanoKONTROL.buttons[~hpp.nanoScene][6].action = { |bt| 
 	if( bt.value == 1 ) {
 		~hpp.ticks.start;
 	};
 };
-NanoKONTROL.buttons[~hpp.nanoScene][5+9].action = { |bt| 
+NanoKONTROL.buttons[~hpp.nanoScene][6+9].action = { |bt| 
 	if( bt.value == 1 ) {
 		~hpp.ticks.end;
 	};
