@@ -23,7 +23,7 @@
 [
 	\amp, 0.5, \amp.asSpec,
 	\semitones, 0, [-24,24,\lin,1,0].asSpec,
-	\semiVar, 0, [-24,24,\lin,1,0].asSpec,
+	\semiVar, 0, [0,24,\lin,1,0].asSpec,
 	\distort, 0, [0,1].asSpec,
 	\filter, 0.5, [0,1].asSpec,
 	\lowCut, [20,5000], \freq.asRangeSpec,
@@ -65,7 +65,7 @@ SynthDef( "hpp_catchPlay", { |bufnum = 0, shapeBuffer = 0, amp = 0.1, out = 2, s
 	ampx = Amplitude.kr(sig, 0.01, 1).max(-80.dbamp);
 Ê Ê 	distorted = Shaper.ar(
 		shapeBuffer,
-		((sig/ampx) * 0.5).softclip,
+		((sig/ampx) * 0.5 * semitones.lag2(2).linlin(-24,0,2,1,\minmax) ).softclip,
 		1
 	) * ampx * 2;
 	distorted = SoftKneeCompressor.ar( distorted, ratio: 0.25, makeUp: 0.75 );
