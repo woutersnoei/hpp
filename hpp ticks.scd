@@ -60,7 +60,7 @@
 		if( old > which ) {
 			old = old - (1/size);
 			which = which - (1/size);
-			rate = 0.5;
+			rate = 0;
 		};
 		arr = ((old * size).floor .. (which * size).floor);
 		arr.pop;
@@ -101,11 +101,11 @@
 	var buf, index;
 	if( evt.lastWhich != which ) {
 		evt.synths = evt.synths.add( 
-			Synth( "hpp_ticks", [ 
+			Synth( ["hpp_ticks2", "hpp_ticks"][ rate.floor ], [ 
 				\bufnum, evt.buffers[ which ], 
 				\i, which,
 				\amp, evt.amp ? 0.5,
-				\rateScale, rate * which.linexp(0,20,0.9,1/0.9),
+				\rateScale, which.linexp(0,20,0.9,1/0.9),
 				\rate, evt.rate ? 2,
 				\hpf, evt.hpf ? 20,
 			] ).freeAction_({ |synth|
@@ -133,6 +133,30 @@ SynthDef( "hpp_ticks", { |bufnum = 0, i = 0, rate = 2, rateScale = 1, hpf = 20, 
 	sig = (sig * hpf.explin(200,1000,1,0.5,\minmax) )+ (verb * Env([0,0,1],[0.125,3]).kr);
 	sig = sig ring1: SinOsc.ar( hpf * ExpRand(1.dup,3) * rate * rateScale, 0, hpf.explin(20,200,0,1,\minmax) );
 	sig = (sig * Line.ar(hpf.explin(20,200,1,0,\minmax),0,0.1)) + PitchShift.ar( sig, 0.1, 1, hpf.explin(20,200,0,0.01,\minmax), hpf.explin(20,200,0,0.01,\minmax) );
+	sig = BLowCut.ar( sig, hpf.lag2(1).clip(20,20000), 3 ) * hpf.explin(20,200,1,0.75,\minmax);
+	Out.ar( 0, sig * env * Env.cutoff(0.1).kr(2,gate) * amp);
+}).load(s);
+);
+
+(
+SynthDef( "hpp_ticks2", { |bufnum = 0, i = 0, rate = 2, rateScale = 1, hpf = 20, amp = 0.5, gate = 1|
+	var env;
+	var sig, verb;
+	var dur;
+	dur =  (BufFrames.kr( bufnum ) / SampleRate.ir) / rate;
+	hpf = hpf.clip(20,20000);
+	
+	env = Env.perc(0.01,0.2,0.5);
+	env = env.kr(2);
+	sig = PlayBuf.ar(2, bufnum, rate * 1.5 * rateScale );
+	sig = BLowCut.ar( sig, 400, 2 );
+	sig = Pan2.ar( sig[0], i.linlin(0,20,-1,1) ) + Pan2.ar( sig[1], i.linlin(0,20,1,-1) );
+	sig = (sig * hpf.explin(200,1000,1,0.5,\minmax) );
+	sig = XFade2.ar( sig, 
+		Klank.ar( `[ [ 1, 2.5, 6.25, 8.7 ] * "Cb6".namecps, 0.02, [1,0.5,0.33,0.25 ] ], sig ),
+		hpf.explin(200,1000,-1,1,\minmax) 
+	);
+	sig = sig ring1: SinOsc.ar( hpf * ExpRand(1.dup,3) * rate * rateScale, 0, hpf.explin(20,200,0,0.5,\minmax) );
 	sig = BLowCut.ar( sig, hpf.lag2(1).clip(20,20000), 3 ) * hpf.explin(20,200,1,0.75,\minmax);
 	Out.ar( 0, sig * env * Env.cutoff(0.1).kr(2,gate) * amp);
 }).load(s);
