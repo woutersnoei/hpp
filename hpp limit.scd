@@ -107,9 +107,9 @@ SynthDef( "hpp_limit", { |in = 0, gain = 10, limit = -10, amp = 0.1, gate = 1, a
 ~hpp.limit.specs = OEM();
 [ 
 	\in, 0, ListSpec([0,1]),
-	\gain, 40, [0,36,\lin,1,10].asSpec,
+	\gain, 45, [0,100,\lin,1,10].asSpec,
 	\filter, 0.5, [0,1].asSpec,
-	\limit, -10, [-36,0,\lin,1,-10].asSpec,
+	\limit, -15, [-36,0,\lin,1,-10].asSpec,
 	\brassage, 0, [0,1].asSpec,
 	\amp, 0.1, \amp.asSpec,
 	\amt, 0.5, [0,1,\lin,0,0.5].asSpec,
@@ -151,8 +151,8 @@ SynthDef( "hpp_limit", { |in = 0, gain = 10, limit = -10, amp = 0.1, gate = 1, a
 ~hpp.limit.auxmix = 1;
 ~hpp.limit.auxmix = 0;
 ~hpp.limit.auxmix = 0.2;
-~hpp.limit.gain = 50;
-~hpp.limit.limit = -10;
+~hpp.limit.gain = 45;
+~hpp.limit.limit = -15;
 ~hpp.limit.amp = 0.0;
 ~hpp.limit.amt = 0.1;
 ~hpp.limit.amt = 0.5;
